@@ -1,24 +1,23 @@
 import { useState } from 'react'
-import { IoCaretDownOutline } from "react-icons/io5";
+import { IoCaretDownOutline, IoCaretUpOutline } from "react-icons/io5";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 
 const colorPriority = { high: 'bg-red-400', medium: 'bg-yellow-300', low: 'bg-green-400' }
 
-export const TodoItem = ({ description, title, priority, onComplete }) => {
+export const TodoItemList = ({ description, title, priority, onComplete }) => {
   
     const [style, setStyle] = useState(false)
     const [optionStyle, setOptionStyle] = useState(false)
-
-    const showDescription = () => {
-      setStyle(!style)
-    }
+    
+    const showDescription = () => setStyle(!style)
+    
 
     const showOptions = () => {
       setOptionStyle(!optionStyle)
     }
 
     return (
-      <li className='border rounded-2xl mb-2 shadow-slate-500 shadow-sm bg-white'>
+      <li className='border rounded-2xl mb-4 shadow-slate-500 shadow-sm bg-white'>
           <div className='flex justify-between place-items-center px-4 py-1'>
             <div className={'text-2xl'}>{title}</div>
             <div className='flex justify-between place-items-center w-10'>
@@ -35,7 +34,9 @@ export const TodoItem = ({ description, title, priority, onComplete }) => {
           </div>
           <div className={style ? 'px-4 block' : 'px-4 hidden'}>{description}</div>
           <div className='flex justify-center border-t-3 bg-gray-100 rounded-b-2xl'>
-            <button type='button' className='text-black w-full flex justify-center' onClick={showDescription}><IoCaretDownOutline size={15}/></button>
+            <button type='button' className='text-black w-full flex justify-center' onClick={showDescription}>
+              {!style ? <IoCaretDownOutline size={15}/> : <IoCaretUpOutline size={15}/>}
+            </button>
           </div>
       </li>  
     )
