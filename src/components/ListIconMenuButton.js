@@ -1,4 +1,4 @@
-export const ListIconMenuButton = ({ children, className = '', title, handleFunction = null }) => {
+export const ListIconMenuButton = ({ children, className, title, handleFunction = null }) => {
     const style = `${className} hover:scale-110`
 
     if (handleFunction) {
