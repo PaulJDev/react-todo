@@ -1,16 +1,71 @@
-import { createContext } from 'react'
-
-const todos = [
-    { description: 'Esto es una descripción de prueba más larga que la que tenía antes.', tags: ['javascript'], completed: false, title: 'Eliminar a Felip del equipo', priority: 'high'},
-    { description: 'Hacer algo 2', tags: ['javascript'], completed: false, title: 'My false todo 2', priority: 'high'},
-    { description: 'Hacer algo 3', tags: ['javascript'], completed: false, title: 'My false todo 3', priority: 'low'},
-  ]
-
-export const AppContext = createContext(todos)
+import { createContext, useState } from 'react'
+import { initTodos } from '../data.js'
+import { TodoItemList } from '../components/TodoItemList'
+import { TodoItemTable } from '../components/TodoItemTable'
+export const AppContext = createContext(initTodos)
 
 
 export const AppProvider = ({ children }) => {
-  <AppContext.Provider value={todos}>
-    {children}
-  </AppContext.Provider >
+
+  const [todos, setTodos] = useState(initTodos)
+  const [searchValue, setSearchValue] = useState('')
+  const [displayModal, setDisplayModal] = useState(false)
+  const [view, setView] = useState(true)
+
+  const completeTodo = title => {
+    const newTodos = todos.map(e => e.title === title ? {...e, completed: true} : e)
+    setTodos(newTodos)
+  }
+  
+  const formatTodo = arr => arr.map(({ id, title, description, priority }) => {
+    if (view) {
+      return (
+        <TodoItemList
+          title={title}
+          description={description}
+          priority={priority}
+          key={id}
+          onComplete={() => completeTodo(title)}
+        />
+      )
+      
+    }
+    return (
+      <TodoItemTable
+        title={title}
+        description={description}
+        priority={priority}
+        key={id}
+        onComplete={() => completeTodo(title)}
+      />
+    )
+  })
+
+  const getTodosSearched = () => {
+    const includesText = str => text => text.toLowerCase().includes(str)
+    const search = includesText(searchValue.toLowerCase())
+    return todos.filter(({ title, description}) => search(title) || search(description))
+  }
+
+  const todosToShow = (searchValue ? getTodosSearched() : todos ).filter(({ completed }) => !completed)
+
+  return (
+    <AppContext.Provider
+      value={{
+        todosToShow,
+        todos,
+        setTodos,
+        searchValue,
+        setSearchValue,
+        displayModal,
+        setDisplayModal,
+        view,
+        setView,
+        formatTodo
+      }}
+    >
+      {children}
+    </AppContext.Provider >
+  )
+
 }
