@@ -1,4 +1,4 @@
-import { AppUI } from './AppUI.js'
+import { AppUI } from './components/AppUI.js'
 
 function App() {
   return (

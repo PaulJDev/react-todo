@@ -23,7 +23,7 @@ export const TodoList = () => {
     const completeTodo = title => {
         const newTodos = todos.map(e => e.title === title ? {...e, completed: true} : e)
         setTodos(newTodos)
-      }
+    }
 
     const formatTodo = arr => arr.map(({ id, title, description, priority }) => {
         return view
@@ -97,7 +97,7 @@ export const TodoList = () => {
                         {
                             todosToShow.length > 0
                                 ? formatTodo(todosToShow)
-                                : <p>No se ha encontrado ninguna coincidencia</p>
+                                : <p>TODO's not found</p>
                         }
                     </ul>
                 </section>
