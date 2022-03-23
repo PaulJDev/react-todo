@@ -14,7 +14,7 @@ export const TodoList = ({ children, searchValue, setSearchValue, setDisplayModa
                 <SearchTodo searchValue={searchValue} setSearchValue={setSearchValue} />
                 <ul className='flex justify-end items-center'>
                         <ListIconMenuButton
-                            className='pr-6'
+                            className='mr-6'
                             title='Create TODO'
                             handleFunction={handleDisplayModal}
                         >
@@ -28,7 +28,7 @@ export const TodoList = ({ children, searchValue, setSearchValue, setDisplayModa
                         </ListIconMenuButton>
                         <ListIconMenuButton
                             title='Table view'
-                            className='px-2'
+                            className='mx-2'
                             handleFunction={handleTaleView}
                         >
                              <AiOutlineTable size={25} />
