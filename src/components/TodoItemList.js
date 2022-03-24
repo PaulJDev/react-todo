@@ -16,24 +16,25 @@ export const TodoItemList = ({ description, title, priority, onComplete }) => {
     
     const handleOnComplete = () => {
       setCompleted(true)
-      sleep(1300).then(() => onComplete())
+      sleep(700).then(() => onComplete())
     }
+    const capitalize = str => str.at(0).toUpperCase() + str.slice(1)
 
     return (
       <li className='border rounded-2xl mb-4 shadow-slate-500 shadow-sm bg-white'>
           <div className='flex justify-between place-items-center px-4 py-1'>
-              <div className='relative overflow-hidden'>
-                <span className='text-2xl'>{title}</span>
+              <div className='relative whitespace-nowrap overflow-hidden text-ellipsis'>
+                <span className='text-2xl' title={title}>{title}</span>
                 <div className={`line ${completed && 'block line-grow'}`}></div>
               </div>
-              <div className='flex justify-between place-items-center'>
-                <div className={`w-5 h-5 rounded-full ${colorPriority[priority]}`}></div>
+              <div className='flex justify-between place-items-center pl-4'>
+                <div className={`w-5 h-5 rounded-full ${colorPriority[priority]}`} title={capitalize(priority)}></div>
                 <button type='button' onClick={showOptions}><BiDotsVerticalRounded size={18} /></button>
                   <div id='todoOptions' className='relative'>
                     <ul className={`fixed ml-14 bg-slate-50 p-2 flex ${optionStyle ? 'absolute -top-5 -left-9' : 'hidden'}`}>
-                      <li><button onClick={handleOnComplete}>✅</button></li>
-                      <li className='px-2'><button onClick={onComplete}>❌</button></li>
-                      <li><button>📝</button></li>
+                      <li><button onClick={handleOnComplete} title='Done'>✅</button></li>
+                      <li className='px-2'><button onClick={onComplete} title='Delete'>❌</button></li>
+                      <li><button title='Edit'>📝</button></li>
                     </ul>
                   </div>                
               </div>

@@ -8,12 +8,17 @@ import { GrDocumentExcel } from "react-icons/gr";
 import { AiOutlineTable, AiOutlineUnorderedList, AiFillPlusSquare } from "react-icons/ai";
 import { TodoCounter } from './TodoCounter.js'
 import { initTodos } from '../data.js'
+import { Pagination } from './Pagination.js'
+import { chunk } from '../helpers/chunk'
+
+const NUMBER_TODOS_SCREEN = 10
 
 export const TodoList = () => {  
     const [view, setView] = useState(true)
     const [displayModal, setDisplayModal] = useState(false)
     const [todos, setTodos] = useState(initTodos) 
     const [searchValue, setSearchValue] = useState('')
+    const [pagination, setPagination] = useState(0)
 
     const handleDisplayModal = () => setDisplayModal(true)
     const handleListView = () => setView(true)
@@ -55,11 +60,11 @@ export const TodoList = () => {
       }
   
       const todosToShow = (searchValue ? getTodosSearched() : todos ).filter(({ completed }) => !completed)
-    
-
+      const chuncks = chunk(todosToShow, NUMBER_TODOS_SCREEN)
+      
     return (
         <>
-        <main className='mx-auto w-4/6 flex-grow pb-6'>
+        <main className='mx-auto mb-2 w-4/6 flex-grow pb-6'>
             <TodoCounter todos={todosToShow.length}/>
                 <section className='p-3 bg-slate-50'>
                     <div className='pb-2 flex justify-between align-middle'>
@@ -96,11 +101,12 @@ export const TodoList = () => {
                     <ul className={!view && 'grid grid-cols-3 gap-4'}>
                         {
                             todosToShow.length > 0
-                                ? formatTodo(todosToShow)
+                                ? formatTodo(chuncks.at(pagination))
                                 : <p>TODO's not found</p>
                         }
                     </ul>
                 </section>
+                {chuncks.length > 1 && <Pagination chuncksLength={chuncks.length} setPagination={setPagination}/>}
             </main>
             <CreateTodo 
                 displayModal={displayModal}

@@ -27,11 +27,27 @@ code {
 
 .line-grow {
   visibility: visible;
-  animation: line 1s linear forwards;
+  animation: line 0.5s linear forwards;
 }
 
 @keyframes line {
   from {
     width:0%;
   }  
+}
+
+#createForm.active{
+  position: absolute;
+  animation: linear;
+  animation-name: run;
+  animation-duration: 0.1s;
+}
+
+@keyframes run {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 32%;
+  }
 }
